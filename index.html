@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<form action="convert.php" method="POST">
+    <label for="from_currency">From Currency:</label>
+    <select name="from_currency" id="from_currency">
+        <?php
+    $query = "SELECT DISTINCT currency_code FROM currency_rates";
+    $stmt = $db->prepare($query);
+        $stmt->execute();
+        $currencies = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+        // Create the select options
+        foreach ($currencies as $currency) {
+        echo "<option value='$currency'>$currency</option>";
+        }
+        ?>
+    </select>
+
+    <label for="to_currency">To Currency:</label>
+    <select name="to_currency" id="to_currency">
+        <?php
+
+    $query = "SELECT DISTINCT currency_code FROM currency_rates";
+    $stmt = $db->prepare($query);
+        $stmt->execute();
+        $currencies = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+        foreach ($currencies as $currency) {
+        echo "<option value='$currency'>$currency</option>";
+        }
+        ?>
+    </select>
+
+    <label for="amount">Amount:</label>
+    <input type="text" name="amount" id="amount">
+
+    <input type="submit" value="Convert">
+</form>
+</body>
+</html>
